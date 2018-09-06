@@ -15,7 +15,7 @@
 
 帮助界面：
 
-![image-20180902192805872](/Users/leo/Desktop/md_image/1.png)
+![image-20180902192805872](./md_image/1.png)
 
 主要功能特色如下：
 
@@ -30,13 +30,13 @@
 4. 利用二进制存储数据表；
 5. 暂不支持自定义表结构，数据库表结构固定为：id，name，age，email，如图：
 
-![image-20180902195643745](/Users/leo/Desktop/md_image/2.png)
+![image-20180902195643745](./md_image/2.png)
 
 #### 过程
 
 下图是sqlite的架构图：
 
-![3](/Users/leo/Desktop/md_image/3.gif)
+![3](./md_image/3.gif)
 
 参考上图，主要开发步骤如下：
 
@@ -129,7 +129,7 @@ int updateRecord();
 
 数据库一般会操作海量的数据，这些数据都是存在磁盘上的。查询是数据库的最主要功能之一，我们可以将查询的过程类比在牛津词典中查单词。我们都希望查询数据的速度能尽可能的快。
 
-![image-20180904094621292](/Users/leo/Desktop/md_image/5.png)
+![image-20180904094621292](./md_image/5.png)
 
 上图是《牛津高阶词典》，共收录了8万多个单词，假设我需要查询“hash”这个单词，我们有两种方式：一是从 A->H 一个个遍历；二是按图示红圈的方式先找到H，再看单词第二个字母，再看第三个......显然我们一般用的是第二种方式，而红圈内的字母即索引（index）。
 
@@ -137,7 +137,7 @@ MySQL官方对索引的定义为：索引（Index）是帮助MySQL高效获取�
 
 最基本的查询算法当然是[顺序查找](http://en.wikipedia.org/wiki/Linear_search)（linear search），这种复杂度为O(n)的算法在数据量很大时显然是糟糕的，随着计算机科学的发展，我们先后发明了[二分查找](http://en.wikipedia.org/wiki/Binary_search_algorithm)（binary search）、[二叉树查找](http://en.wikipedia.org/wiki/Binary_search_tree)（binary tree search）等算法。每种查找算法都只能应用于特定的数据结构之上，例如二分查找要求被检索数据有序，而二叉树查找只能应用于[二叉查找树](http://en.wikipedia.org/wiki/Binary_search_tree)上，但是数据本身的组织结构不可能完全满足各种数据结构（例如，理论上不可能同时将两列都按顺序进行组织），所以，在数据之外，数据库系统还维护着满足特定查找算法的数据结构，这些数据结构以某种方式引用（指向）数据，这样就可以在这些数据结构上实现高级查找算法。这种数据结构，就是索引。
 
-![img](/Users/leo/Desktop/md_image/6.png)
+![img](./md_image/6.png)
 
 上图展示了一种可能的索引方式。左边是数据表，一共有两列七条记录，最左边的是数据记录的物理地址（注意逻辑上相邻的记录在磁盘上也并不是一定物理相邻的）。为了加快Col2的查找，可以维护一个右边所示的二叉查找树，每个节点分别包含索引键值和一个指向对应数据记录物理地址的指针，这样就可以运用二叉查找在的复杂度内获取到相应数据。
 
@@ -166,7 +166,7 @@ MySQL官方对索引的定义为：索引（Index）是帮助MySQL高效获取�
 
 下图是一个M=4 阶的B树：
 
-![7](/Users/leo/Desktop/md_image/7.png)
+![7](./md_image/7.png)
 
 下面是往B树中依次插入
 
@@ -174,7 +174,7 @@ MySQL官方对索引的定义为：索引（Index）是帮助MySQL高效获取�
 
 的演示动画：
 
-![bb](/Users/leo/Desktop/md_image/bb.gif)
+![bb](./md_image/bb.gif)
 
 **B+树**
 
@@ -186,7 +186,7 @@ MySQL官方对索引的定义为：索引（Index）是帮助MySQL高效获取�
 
 如下图，是一个B+树：
 
-![9](/Users/leo/Desktop/md_image/9.png)
+![9](./md_image/9.png)
 
 下面是往B+树中依次插入
 
@@ -194,7 +194,7 @@ MySQL官方对索引的定义为：索引（Index）是帮助MySQL高效获取�
 
 的演示动画：
 
-![b+](/Users/leo/Desktop/md_image/b+.gif)
+![b+](./md_image/b+.gif)
 
 B和B+树的区别在于，B+树的非叶子结点只包含导航信息，不包含实际的值，所有的叶子结点和相连的节点使用链表相连，便于区间查找和遍历。
 
@@ -205,7 +205,7 @@ B和B+树的区别在于，B+树的非叶子结点只包含导航信息，不包
 
 但是B树也有优点，其优点在于，由于B树的每一个节点都包含key和value，因此经常访问的元素可能离根节点更近，因此访问也更迅速。下面是B 树和B+树的区别图：
 
-![8](/Users/leo/Desktop/md_image/8.png)
+![8](./md_image/8.png)
 
 ###### 三、MySQL的MyISAM索引和InnoDB索引
 
@@ -213,7 +213,7 @@ B和B+树的区别在于，B+树的非叶子结点只包含导航信息，不包
 
 MyISAM引擎使用B+Tree作为索引结构，叶节点的data域存放的是数据记录的地址。下图是MyISAM索引的原理图：
 
-![8 (1)](/Users/leo/Desktop/md_image/8 (1).png)
+![8 (1)](./md_image/8 (1).png)
 
 这里设表一共有三列，假设我们以Col1为主键，则上图是一个MyISAM表的主索引（Primary key）示意。可以看出MyISAM的索引文件仅仅保存数据记录的地址。
 
@@ -223,7 +223,7 @@ MyISAM引擎使用B+Tree作为索引结构，叶节点的data域存放的是数�
 
 第一个重大区别是InnoDB的数据文件本身就是索引文件。从上文知道，MyISAM索引文件和数据文件是分离的，索引文件仅保存数据记录的地址。而在InnoDB中，表数据文件本身就是按B+Tree组织的一个索引结构，这棵树的叶节点data域保存了完整的数据记录。这个索引的key是数据表的主键，因此InnoDB表数据文件本身就是主索引。
 
-![10](/Users/leo/Desktop/md_image/10.png)
+![10](./md_image/10.png)
 
 
 
@@ -330,29 +330,29 @@ end
 
 输入`bundle exec rspec`，结果如下：
 
-![image-20180906161404599](/Users/leo/Desktop/md_image/12.png)
+![image-20180906161404599](./md_image/12.png)
 
 共耗时28.71秒，平均插入每条记录需要0.005742秒，并产生了5.1MB的数据文件：
 
-![image-20180906161613057](/Users/leo/Desktop/md_image/13.png)
+![image-20180906161613057](./md_image/13.png)
 
 随机查询一条数据：
 
-![image-20180906162224569](/Users/leo/Desktop/md_image/14.png)
+![image-20180906162224569](./md_image/14.png)
 
-![image-20180906162308633](/Users/leo/Desktop/md_image/15.png)
+![image-20180906162308633](./md_image/15.png)
 
 打印一个范围：
 
-![image-20180906162543967](/Users/leo/Desktop/md_image/16.png)
+![image-20180906162543967](./md_image/16.png)
 
 更新一条id=2634的记录：
 
-![image-20180906162915686](/Users/leo/Desktop/md_image/17.png)
+![image-20180906162915686](./md_image/17.png)
 
 删除id=4265的记录：
 
-![image-20180906163031482](/Users/leo/Desktop/md_image/18.png)
+![image-20180906163031482](./md_image/18.png)
 
 #### 评价
 
