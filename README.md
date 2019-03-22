@@ -5,6 +5,7 @@
 
 1. 输入`make`进行编译，输入`./duck_db`即可运行；
 2. `make clean`清除文件。
+3.数据库二进制文件存的目录：./data/db.bin
 
 
 
